@@ -1,0 +1,1342 @@
+/* Hallmark · pre-emit critique: P5 H4 E5 S4 R5 V5
+ *
+ * Hallmark · macrostructure: Split Studio · H2 hero knobs: ratio=1.35fr/22–26rem, right=cutout(alpha),
+ *   divider=negative-space + satu grid-break (produk menembus gutter kanan)
+ * theme: custom · vibe: "hangat, natural, lokal, premium" · paper: oklch(96% 0.016 80) · accent: oklch(64% 0.145 58)
+ * display: Fraunces · body: IBM Plex Sans · axes: light / roman-serif / chromatic-amber
+ * nav: N9 edge-aligned minimal + baris indeks masthead (N6) · footer: Ft1 mast-headed
+ * enrichment: none — hero memakai potongan produk milik brand sendiri, bukan aset generatif
+ * contrast: pass (40–41) · nav/footer/slop: pass (42–45) · honest: pass (46) · chrome: pass (47)
+ * tokens: pass (48) · responsive: pass (49) · icons: pass (30) · mobile: pass (34, 49, 50–57)
+ * studied: no · context: explicit · v1.1.0
+ */
+@import "../../tokens.css";
+
+/* ==========================================================================
+   1 · Reset + base
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* clip (bukan hidden) supaya sticky/fixed tetap bekerja dan halaman tidak
+     pernah bisa digeser ke samping. */
+  overflow-x: clip;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) + var(--space-md));
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: clip;
+  margin: 0;
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 400;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+picture,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+code {
+  font-family: var(--font-body);
+  font-size: 0.9em;
+  background-color: var(--color-paper);
+  border: var(--rule-hair) solid var(--color-rule);
+  padding: 0 var(--space-2xs);
+  white-space: nowrap;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   2 · Type
+   ========================================================================== */
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 600;
+  font-optical-sizing: auto;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+h1,
+h2 {
+  text-wrap: balance;
+}
+
+.prose,
+.section__lede {
+  font-size: 1.0625rem;
+  color: var(--color-ink-2);
+  text-wrap: pretty;
+  max-width: var(--measure);
+}
+
+.prose + .prose {
+  margin-block-start: var(--space-md);
+}
+
+/* ==========================================================================
+   3 · Layout utilities
+   ========================================================================== */
+
+.shell {
+  width: 100%;
+  max-width: var(--shell-max);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+
+.shell--flush {
+  padding-inline: 0;
+}
+
+.section {
+  padding-block: clamp(3.25rem, 9vw, var(--space-3xl));
+}
+
+.section__head {
+  display: grid;
+  gap: var(--space-sm);
+  max-width: var(--measure);
+  margin-block-end: clamp(1.75rem, 6vw, var(--space-2xl));
+}
+
+.section__head--tight {
+  margin-block-end: clamp(1.25rem, 4vw, var(--space-lg));
+}
+
+.section__title {
+  font-size: var(--text-section);
+  letter-spacing: -0.025em;
+}
+
+.section__lede {
+  color: var(--color-ink-2);
+}
+
+/* ==========================================================================
+   4 · Controls
+   ========================================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  min-height: 3rem;
+  padding: var(--space-sm) var(--space-lg);
+  border: var(--rule-hair) solid transparent;
+  border-radius: var(--radius-xs);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+  transition: background-color var(--dur-micro) var(--ease-out),
+    border-color var(--dur-micro) var(--ease-out),
+    color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+}
+
+.btn--sm {
+  min-height: 2.75rem;
+  padding: var(--space-xs) var(--space-md);
+  font-size: 0.9375rem;
+}
+
+.btn--solid {
+  background-color: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.btn--outline {
+  background-color: transparent;
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+}
+
+.btn--band {
+  background-color: transparent;
+  border-color: var(--color-band-ink);
+  color: var(--color-band-ink);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn--solid:hover {
+    background-color: var(--color-band-2);
+    border-color: var(--color-band-2);
+    color: var(--color-accent-soft);
+  }
+
+  .btn--outline:hover {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  .btn--band:hover {
+    background-color: var(--color-band-ink);
+    color: var(--color-band);
+  }
+}
+
+/* Tautan aksi di dalam kartu produk — satu sinyal hover saja (garis bawah). */
+.link-action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-height: 2.75rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  white-space: nowrap;
+  border-block-end: var(--rule-hair) solid var(--color-rule);
+  transition: border-color var(--dur-micro) var(--ease-out);
+}
+
+.link-action svg {
+  transition: transform var(--dur-short) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link-action:hover {
+    border-block-end-color: var(--color-accent);
+  }
+
+  .link-action:hover svg {
+    transform: translateX(3px);
+  }
+}
+
+.skip-link {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  z-index: var(--z-toast);
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+  font-size: 0.9375rem;
+  transform: translateY(-130%);
+  transition: transform var(--dur-short) var(--ease-out);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+/* Umpan balik tekan yang sama untuk semua tautan teks. */
+.nav__link:active,
+.foot__link:active,
+.sheet__link:active,
+.link-action:active,
+.contact__link:active,
+.wordmark:active {
+  opacity: 0.7;
+}
+
+/* ==========================================================================
+   5 · Reveal + hero entrance
+   ========================================================================== */
+
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(0.5rem);
+}
+
+html.js .reveal.is-shown {
+  animation: reveal var(--dur-long) var(--ease-out) forwards;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+
+@keyframes reveal {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.enter {
+  animation: enter var(--dur-long) var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.6rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   6 · Navigation (N9 edge-aligned minimal)
+   ========================================================================== */
+
+.nav {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--z-sticky-nav);
+  background-color: var(--color-paper);
+  border-block-end: var(--rule-hair) solid var(--color-rule-2);
+}
+
+.nav__inner {
+  display: grid;
+}
+
+.nav__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  min-height: var(--nav-height);
+}
+
+@media (min-width: 60rem) {
+  .nav__top {
+    min-height: 3rem;
+  }
+}
+
+.nav__brand {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  min-width: 0;
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.wordmark__mark {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius-xs);
+  object-fit: cover;
+}
+
+.wordmark__text {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.0625rem;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+}
+
+.wordmark--footer .wordmark__mark {
+  width: 3rem;
+  height: 3rem;
+}
+
+.wordmark--footer .wordmark__text {
+  font-size: 1.375rem;
+}
+
+.nav__rail {
+  display: none;
+}
+
+.nav__list {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2.2vw, 1.75rem);
+}
+
+.nav__meta {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.nav__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-size: 0.9375rem;
+  color: var(--color-ink-2);
+  white-space: nowrap;
+  border-block-end: var(--rule-thin) solid transparent;
+  transition: color var(--dur-micro) var(--ease-out),
+    border-color var(--dur-micro) var(--ease-out);
+}
+
+.nav__end {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.nav__cta {
+  display: none;
+}
+
+.nav__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-height: 2.75rem;
+  padding: var(--space-xs) var(--space-sm);
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-xs);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: border-color var(--dur-micro) var(--ease-out),
+    background-color var(--dur-micro) var(--ease-out);
+}
+
+.nav__toggle-icon {
+  display: inline-flex;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav__link:hover {
+    color: var(--color-ink);
+    border-block-end-color: var(--color-accent);
+  }
+
+  .nav__toggle:hover {
+    border-color: var(--color-ink);
+    background-color: var(--color-paper-2);
+  }
+}
+
+@media (min-width: 60rem) {
+  /* Baris indeks masthead — memisahkan nav ini dari pola satu-baris yang
+   * dipakai hampir semua template. */
+  .nav__rail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    padding-block: var(--space-2xs);
+    border-block-start: var(--rule-hair) solid var(--color-rule-2);
+  }
+
+  .nav__cta {
+    display: inline-flex;
+  }
+
+  .nav__toggle {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   7 · Mobile menu sheet
+   ========================================================================== */
+
+.sheet {
+  position: fixed;
+  inset-block-start: var(--nav-height);
+  inset-inline: 0;
+  z-index: var(--z-dropdown);
+  display: grid;
+  gap: var(--space-md);
+  max-height: calc(100dvh - var(--nav-height));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-lg) var(--page-gutter)
+    calc(var(--space-xl) + env(safe-area-inset-bottom));
+  background-color: var(--color-paper);
+  border-block-end: var(--rule-hair) solid var(--color-rule);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.5rem);
+  transition: opacity var(--dur-short) var(--ease-out),
+    transform var(--dur-short) var(--ease-out),
+    visibility 0s linear var(--dur-short);
+}
+
+.sheet[data-open="true"] {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity var(--dur-short) var(--ease-out),
+    transform var(--dur-short) var(--ease-out), visibility 0s;
+}
+
+.sheet__list {
+  display: grid;
+}
+
+.sheet__link {
+  display: flex;
+  align-items: center;
+  min-height: 3.25rem;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+  border-block-end: var(--rule-hair) solid var(--color-rule-2);
+}
+
+.sheet__cta {
+  width: 100%;
+}
+
+.sheet__note {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+@media (min-width: 60rem) {
+  .sheet {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   8 · Hero (H2 split diptych)
+   ========================================================================== */
+
+.hero {
+  /* Bawah lebih berat dari atas supaya hero menyatu ke bagian berikutnya. */
+  padding-block: clamp(1.5rem, 5vw, var(--space-xl))
+    clamp(2.5rem, 8vw, var(--space-3xl));
+}
+
+.hero__grid {
+  display: grid;
+  gap: clamp(1.75rem, 6vw, var(--space-2xl));
+}
+
+.hero__copy {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-md);
+}
+
+.hero__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+}
+
+.hero__label::before {
+  content: "";
+  flex: none;
+  width: var(--space-xs);
+  height: var(--space-xs);
+  background-color: var(--color-accent);
+}
+
+.hero__title {
+  font-size: var(--text-display);
+  line-height: 1.04;
+  letter-spacing: -0.032em;
+  max-width: 20ch;
+}
+
+.hero__lede {
+  font-size: 1.0625rem;
+  color: var(--color-ink-2);
+  max-width: var(--measure-tight);
+  text-wrap: pretty;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-block-start: var(--space-xs);
+}
+
+/* Produk mengambang: potongan transparan di atas kertas, tanpa bingkai. */
+.hero__media {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.hero__media img {
+  width: 100%;
+  height: auto;
+}
+
+.hero__caption {
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+}
+
+@media (min-width: 40rem) {
+  .hero__copy {
+    gap: var(--space-lg);
+  }
+
+  .hero__title {
+    max-width: 24ch;
+  }
+
+  .hero__media {
+    max-width: 26rem;
+  }
+}
+
+/* Hero baru terbagi dua mulai 60rem — di bawah itu headline selebar layar,
+ * kalau tidak kolomnya terlalu sempit dan headline jadi 5 baris. */
+@media (min-width: 60rem) {
+  .hero__grid {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 22rem);
+    align-items: end;
+    column-gap: var(--space-2xl);
+  }
+
+  /* Produk sengaja menembus padding kanan halaman (grid-break) supaya jadi
+   * titik fokus, bukan sekadar gambar di dalam kolom. */
+  .hero__media {
+    max-width: none;
+    margin-inline-end: calc(var(--page-gutter) * -1);
+  }
+
+  /* Ukuran display penuh (4.5rem) terlalu tinggi di kolom 500–800px. */
+  .hero__title {
+    font-size: clamp(2.75rem, 2.4vw + 1.5rem, 4rem);
+    max-width: none;
+  }
+}
+
+@media (min-width: 75rem) {
+  .hero__grid {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 26rem);
+  }
+}
+
+/* ==========================================================================
+   9 · Produk (F6 product card grid)
+   ========================================================================== */
+
+.section--products {
+  padding-block-start: clamp(2.5rem, 8vw, var(--space-2xl));
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-lg) var(--space-sm);
+}
+
+.product-grid__item {
+  min-width: 0;
+}
+
+.product {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.product__media {
+  /* Rasio wadah sengaja sama persis dengan rasio foto asli (2:3) supaya
+     object-fit: cover tidak memotong produk sedikit pun. */
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  background-color: var(--color-paper-2);
+  border: var(--rule-hair) solid var(--color-rule-2);
+}
+
+.product__media picture {
+  display: block;
+  height: 100%;
+}
+
+.product__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product__body {
+  display: grid;
+  gap: var(--space-2xs);
+}
+
+.product__name {
+  font-size: 1.125rem;
+  letter-spacing: -0.015em;
+}
+
+.product__desc {
+  font-size: 0.9375rem;
+  color: var(--color-ink-2);
+  text-wrap: pretty;
+}
+
+.product__price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2xs);
+  font-size: 0.9375rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.product__price-unit {
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+}
+
+.product__action {
+  margin-block-start: var(--space-2xs);
+  justify-self: start;
+}
+
+@media (min-width: 40rem) {
+  .product-grid {
+    gap: var(--space-2xl) var(--space-lg);
+  }
+
+  .product__name {
+    font-size: 1.25rem;
+  }
+}
+
+@media (min-width: 60rem) {
+  .product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ==========================================================================
+   10 · Tentang
+   ========================================================================== */
+
+.section--about {
+  background-color: var(--color-paper-2);
+}
+
+.about {
+  display: grid;
+  gap: clamp(1.5rem, 5vw, var(--space-2xl));
+}
+
+.about__media {
+  max-width: 14rem;
+}
+
+.plaque {
+  display: grid;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  background-color: var(--color-paper-3);
+  border: var(--rule-hair) solid var(--color-rule);
+}
+
+.plaque img {
+  width: 100%;
+  height: auto;
+}
+
+.plaque__caption {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+}
+
+.about__copy {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.about__copy .section__title {
+  margin-block-end: var(--space-2xs);
+}
+
+@media (min-width: 48rem) {
+  .about {
+    grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+    column-gap: clamp(2rem, 6vw, var(--space-3xl));
+    align-items: start;
+  }
+
+  .about__media {
+    max-width: 18rem;
+  }
+}
+
+/* ==========================================================================
+   11 · Keunggulan (daftar asimetris)
+   ========================================================================== */
+
+.qualities {
+  border-block-start: var(--rule-hair) solid var(--color-rule);
+}
+
+.quality {
+  display: grid;
+  gap: var(--space-2xs);
+  padding-block: clamp(1.25rem, 4vw, var(--space-lg));
+  border-block-end: var(--rule-hair) solid var(--color-rule);
+}
+
+.quality__name {
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.quality__body {
+  font-size: 1rem;
+  color: var(--color-ink-2);
+  max-width: var(--measure-tight);
+  text-wrap: pretty;
+}
+
+@media (min-width: 60rem) {
+  .qualities {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--space-lg);
+    row-gap: clamp(2rem, 5vw, var(--space-2xl));
+    border-block-start: 0;
+  }
+
+  .quality {
+    border-block-end: 0;
+    border-block-start: var(--rule-hair) solid var(--color-rule);
+    padding-block: var(--space-lg) 0;
+  }
+
+  .quality:nth-child(1) {
+    grid-column: 1 / span 5;
+  }
+
+  .quality:nth-child(2) {
+    grid-column: 7 / span 6;
+  }
+
+  .quality:nth-child(3) {
+    grid-column: 2 / span 5;
+  }
+
+  .quality:nth-child(4) {
+    grid-column: 8 / span 4;
+  }
+}
+
+/* ==========================================================================
+   12 · Galeri
+   ========================================================================== */
+
+.section--gallery {
+  padding-block: clamp(2.5rem, 8vw, var(--space-2xl));
+}
+
+/* Mobile: carousel geser, foto memenuhi sebagian besar lebar layar. */
+.gallery {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 78%;
+  gap: var(--space-md);
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--page-gutter);
+  padding-inline: var(--page-gutter);
+  padding-block-end: var(--space-xs);
+  -webkit-overflow-scrolling: touch;
+}
+
+.gallery__item {
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+.gallery__figure {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.gallery__frame {
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  background-color: var(--color-paper-2);
+  border: var(--rule-hair) solid var(--color-rule-2);
+}
+
+.gallery__frame picture {
+  display: block;
+  height: 100%;
+}
+
+.gallery__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery__caption {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+}
+
+.gallery__hint {
+  padding-inline: var(--page-gutter);
+  margin-block-start: var(--space-sm);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+}
+
+/* Desktop: komposisi asimetris — lebar kolom berbeda, tinggi ditumpuk. */
+@media (min-width: 60rem) {
+  .gallery {
+    grid-auto-flow: row;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: var(--space-lg);
+    align-items: start;
+    overflow: visible;
+    padding-inline: 0;
+    scroll-snap-type: none;
+  }
+
+  .gallery__item:nth-child(2) {
+    margin-block-start: clamp(1.5rem, 4vw, var(--space-2xl));
+  }
+
+  .gallery__item:nth-child(3) {
+    margin-block-start: clamp(0.75rem, 2vw, var(--space-lg));
+  }
+
+  .gallery__hint {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   13 · Momen
+   ========================================================================== */
+
+.section--moments {
+  border-block-start: var(--rule-hair) solid var(--color-rule-2);
+}
+
+.moments {
+  border-block-start: var(--rule-hair) solid var(--color-rule-2);
+}
+
+.moment {
+  display: grid;
+  gap: var(--space-2xs);
+  padding-block: clamp(1rem, 3.5vw, var(--space-lg));
+  border-block-end: var(--rule-hair) solid var(--color-rule-2);
+}
+
+.moment__name {
+  font-size: 1.1875rem;
+  letter-spacing: -0.015em;
+}
+
+.moment__body {
+  font-size: 0.9375rem;
+  color: var(--color-ink-2);
+  max-width: var(--measure);
+  text-wrap: pretty;
+}
+
+@media (min-width: 48rem) {
+  .moment {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: baseline;
+    column-gap: var(--space-lg);
+  }
+}
+
+/* ==========================================================================
+   14 · CTA
+   ========================================================================== */
+
+.section--cta {
+  background-color: var(--color-band);
+  color: var(--color-band-ink);
+  padding-block: clamp(2.75rem, 9vw, var(--space-3xl));
+}
+
+/* Di permukaan gelap, cincin fokus memakai warna terang — aksen pekat hanya
+ * mencapai 2.7:1 di atas cokelat tua. */
+.section--cta :focus-visible {
+  outline-color: var(--color-band-ink);
+}
+
+.cta-band {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-md);
+  max-width: 46rem;
+}
+
+.cta-band::before {
+  content: "";
+  width: var(--space-xs);
+  height: var(--space-xs);
+  margin-block-end: var(--space-2xs);
+  background-color: var(--color-accent);
+}
+
+.cta-band__title {
+  font-size: var(--text-section);
+  color: var(--color-band-ink);
+  letter-spacing: -0.025em;
+}
+
+.cta-band__text {
+  font-size: 1.0625rem;
+  color: var(--color-band-muted);
+  max-width: var(--measure-tight);
+  text-wrap: pretty;
+}
+
+/* ==========================================================================
+   15 · Kontak
+   ========================================================================== */
+
+.section--contact {
+  padding-block-end: clamp(4rem, 12vw, var(--space-4xl));
+}
+
+.contact {
+  max-width: 46rem;
+  border-block-start: var(--rule-hair) solid var(--color-rule);
+}
+
+.contact__row {
+  border-block-end: var(--rule-hair) solid var(--color-rule-2);
+}
+
+.contact__link {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2xs) var(--space-md);
+  min-height: 3.5rem;
+  padding-block: var(--space-sm);
+  padding-inline: var(--space-xs);
+  margin-inline: calc(var(--space-xs) * -1);
+  transition: background-color var(--dur-micro) var(--ease-out);
+}
+
+.contact__key {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.contact__value {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-width: 0;
+  font-size: 0.9375rem;
+  color: var(--color-ink-2);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.contact__link--pending .contact__value {
+  color: var(--color-muted);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a.contact__link:hover {
+    background-color: var(--color-paper-2);
+  }
+
+  a.contact__link:hover .contact__value {
+    color: var(--color-ink);
+  }
+}
+
+.owner-note {
+  max-width: var(--measure);
+  margin-block-start: var(--space-lg);
+  padding: var(--space-md);
+  background-color: var(--color-paper-2);
+  border: var(--rule-hair) solid var(--color-rule);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-ink-2);
+  text-wrap: pretty;
+}
+
+.owner-note code {
+  background-color: var(--color-paper);
+}
+
+/* ==========================================================================
+   16 · Footer (Ft1 mast-headed)
+   ========================================================================== */
+
+.foot {
+  background-color: var(--color-paper-2);
+  border-block-start: var(--rule-hair) solid var(--color-rule);
+  padding-block-start: clamp(2rem, 6vw, var(--space-2xl));
+  padding-block-end: clamp(2rem, 6vw, var(--space-xl));
+}
+
+.foot__inner {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.foot__brand {
+  display: grid;
+  gap: var(--space-sm);
+  justify-items: start;
+}
+
+.foot__description {
+  font-size: 0.9375rem;
+  color: var(--color-ink-2);
+  max-width: var(--measure-tight);
+  text-wrap: pretty;
+}
+
+.foot__nav {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.foot__list,
+.foot__social {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2xs) var(--space-lg);
+}
+
+.foot__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-height: 2.75rem;
+  font-size: 0.9375rem;
+  color: var(--color-ink-2);
+  white-space: nowrap;
+  transition: color var(--dur-micro) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .foot__link:hover {
+    color: var(--color-ink);
+  }
+}
+
+.foot__legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-xs) var(--space-lg);
+  margin-block-start: clamp(1.5rem, 5vw, var(--space-xl));
+  padding-block-start: var(--space-md);
+  border-block-start: var(--rule-hair) solid var(--color-rule);
+}
+
+.foot__legal p {
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+}
+
+@media (min-width: 48rem) {
+  .foot__inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: var(--space-2xl);
+    align-items: start;
+  }
+
+  .foot__nav {
+    justify-items: end;
+  }
+}
+
+/* ==========================================================================
+   17 · Mobile sticky CTA (C4)
+   ========================================================================== */
+
+.sticky-cta {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: var(--z-sticky);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--page-gutter);
+  padding-block-end: max(var(--space-sm), env(safe-area-inset-bottom));
+  background-color: var(--color-paper);
+  border-block-start: var(--rule-hair) solid var(--color-rule);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(100%);
+  transition: opacity var(--dur-short) var(--ease-out),
+    transform var(--dur-short) var(--ease-out),
+    visibility 0s linear var(--dur-short);
+}
+
+.sticky-cta[data-visible="true"] {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity var(--dur-short) var(--ease-out),
+    transform var(--dur-short) var(--ease-out), visibility 0s;
+}
+
+.sticky-cta__note {
+  min-width: 0;
+  font-size: var(--text-sm);
+  color: var(--color-ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sticky-cta__action {
+  flex: none;
+}
+
+.sticky-spacer {
+  height: var(--sticky-cta-height);
+}
+
+@media (min-width: 26rem) {
+  .sticky-cta__note {
+    display: block;
+  }
+}
+
+@media (max-width: 25.99rem) {
+  .sticky-cta__note {
+    display: none;
+  }
+
+  .sticky-cta__action {
+    flex: 1 1 auto;
+  }
+}
+
+@media (min-width: 60rem) {
+  .sticky-cta {
+    display: none;
+  }
+
+  .sticky-spacer {
+    height: 0;
+  }
+}
+
+/* ==========================================================================
+   18 · Reduced motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 150ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 150ms !important;
+  }
+
+  .enter {
+    animation: none;
+  }
+
+  html.js .reveal {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}

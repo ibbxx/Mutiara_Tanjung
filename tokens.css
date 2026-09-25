@@ -1,0 +1,106 @@
+/* Hallmark · tokens · Mutiara Tanjung
+ * Single source of truth for colour, type, space, motion.
+ * Every colour + font-family in src/styles/styles.css references these by name.
+ * Palette anchors are sampled from the real brand assets (ASSET/logo.jpeg = tan
+ * oklch(65.1% 0.085 52.7), product photography = amber oklch(71.2% 0.14 60.8),
+ * deep brown oklch(29.9% 0.069 35.5)). Nothing here is invented.
+ */
+
+:root {
+  /* ---- Colour · paper (warm cream, tinted toward the amber anchor ~hue 80) ---- */
+  --color-paper: oklch(96% 0.016 80);
+  --color-paper-2: oklch(93% 0.021 80);
+  --color-paper-3: oklch(89.5% 0.028 80);
+
+  /* ---- Colour · ink (warm brown-black, never pure #000) ---- */
+  --color-ink: oklch(21% 0.026 50);
+  --color-ink-2: oklch(35% 0.024 55);
+  --color-muted: oklch(48% 0.019 60);
+
+  /* ---- Colour · rules + neutrals ---- */
+  --color-rule: oklch(82% 0.020 78);
+  --color-rule-2: oklch(88% 0.018 80);
+  --color-neutral: oklch(58% 0.016 70);
+
+  /* ---- Colour · accent (mustard/amber from the product photography) ---- */
+  --color-accent: oklch(64% 0.145 58);
+  --color-accent-ink: oklch(98% 0.012 80);
+  --color-accent-soft: oklch(92% 0.045 76);
+  --color-focus: oklch(52% 0.16 50);
+
+  /* ---- Colour · brand band (deep brown sampled from the product assets) ---- */
+  --color-band: oklch(26% 0.048 45);
+  --color-band-2: oklch(31% 0.050 45);
+  --color-band-ink: oklch(95% 0.022 82);
+  --color-band-muted: oklch(80% 0.030 70);
+  --color-band-rule: oklch(42% 0.045 45);
+
+  /* ---- Type ---- */
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+
+  --text-xs: 0.64rem;
+  --text-sm: 0.8rem;
+  --text-base: 1rem;
+  --text-md: 1.25rem;
+  --text-lg: 1.5625rem;
+  --text-xl: 1.9531rem;
+  --text-2xl: 2.4414rem;
+  --text-3xl: 3.0518rem;
+  --text-4xl: 3.8147rem;
+  --text-display: clamp(2.35rem, 6.2vw + 0.85rem, 4.5rem);
+  --text-display-s: clamp(1.95rem, 4.4vw + 0.75rem, 3.15rem);
+  --text-section: clamp(1.8rem, 5vw + 0.6rem, 2.6rem);
+
+  --measure: 62ch;
+  --measure-tight: 48ch;
+
+  /* ---- Space · 4pt scale ---- */
+  --space-3xs: 0.125rem;
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+  --space-4xl: 9rem;
+
+  --page-gutter: clamp(1rem, 5vw, 2.5rem);
+  --shell-max: 78rem;
+
+  /* ---- Rules + radii (this brand keeps edges square) ---- */
+  --rule-hair: 1px;
+  --rule-thin: 2px;
+  --radius-xs: 2px;
+  --radius-full: 999px;
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+
+  /* ---- Depth · six named levels ---- */
+  --z-base: 1;
+  --z-raised: 10;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-sticky-nav: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+
+  /* ---- Layout constants used in more than one place ---- */
+  --nav-height: 3.5rem; /* mobile: satu baris — logo + menu */
+  --sticky-cta-height: 4.25rem;
+}
+
+/* Desktop: masthead dua baris (brand + baris indeks), jadi nav-nya lebih tinggi. */
+@media (min-width: 60rem) {
+  :root {
+    --nav-height: 6.25rem;
+  }
+}
